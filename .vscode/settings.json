@@ -1,6 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "sequelize",
-    "migrations"
+    "migrations",
+    "routes"
   ]
 }
