@@ -34,11 +34,11 @@ const createUser = async (userInfo) => {
 
     await User.create(info);
 
-    const { password: _, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = info;
 
     const token = createToken(userWithoutPassword.dataValues);
   
-    return { code: 200, result: { token } };
+    return { code: 201, result: { token } };
   } catch ({ message }) {
     return { code: 400, result: { message } };
   }
