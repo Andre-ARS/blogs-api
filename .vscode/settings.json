@@ -2,6 +2,9 @@
   "conventionalCommits.scopes": [
     "sequelize",
     "migrations",
-    "routes"
+    "routes",
+    "jwtService",
+    "loginService",
+    "loginController"
   ]
 }
