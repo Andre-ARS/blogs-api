@@ -16,9 +16,9 @@ const signIn = async (userInfo) => {
 
   if (!user) return { code: 400, result: { message: 'Invalid fields' } };
 
-  const { password: _, ...userWithoutPassword } = user;
+  delete user.dataValues.password;
 
-  const token = createToken(userWithoutPassword.dataValues);
+  const token = createToken(user.dataValues);
 
   return { code: 200, result: { token } };
 };

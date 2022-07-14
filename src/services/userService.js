@@ -34,9 +34,9 @@ const createUser = async (userInfo) => {
 
     await User.create(info);
 
-    const { password: _, ...userWithoutPassword } = info;
+    delete info.password;
 
-    const token = createToken(userWithoutPassword.dataValues);
+    const token = createToken(info);
   
     return { code: 201, result: { token } };
   } catch ({ message }) {
