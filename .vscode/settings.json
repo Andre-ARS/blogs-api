@@ -5,6 +5,7 @@
     "routes",
     "jwtService",
     "loginService",
-    "loginController"
+    "loginController",
+    "models"
   ]
 }
