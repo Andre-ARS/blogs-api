@@ -30,7 +30,9 @@ const createUser = async (userInfo) => {
       where: { email: info.email, password: info.password },
     });
 
-    if (user) { return { code: 409, result: { message: 'User already registered' } }; }
+    if (user) {
+      return { code: 409, result: { message: 'User already registered' } };
+    }
 
     await User.create(info);
 
@@ -51,7 +53,7 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
 
   if (!user) return { code: 404, result: { message: 'User does not exist' } };
 
