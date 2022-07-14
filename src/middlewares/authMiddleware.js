@@ -9,6 +9,7 @@ const validateToken = (req, res, next) => {
     return res.status(user.code).json(user.result);
   }
 
+  req.user = user;
   next();
 };
 

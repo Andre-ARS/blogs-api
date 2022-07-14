@@ -15,8 +15,8 @@ const validateToken = (token) => {
     const { data } = jwt.verify(token, process.env.JWT_SECRET);
 
     return data;
-  } catch (error) {
-    return error.message.includes('provided')
+  } catch ({ message }) {
+    return message.includes('provided')
       ? { code: 401, result: { message: 'Token not found' } }
       : { code: 401, result: { message: 'Expired or invalid token' } };
   }

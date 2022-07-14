@@ -30,20 +30,27 @@ const createUser = async (userInfo) => {
       where: { email: info.email, password: info.password },
     });
 
-    if (user) return { code: 409, result: { message: 'User already registered' } };
+    if (user) { return { code: 409, result: { message: 'User already registered' } }; }
 
     await User.create(info);
 
     delete info.password;
 
     const token = createToken(info);
-  
+
     return { code: 201, result: { token } };
   } catch ({ message }) {
     return { code: 400, result: { message } };
   }
 };
 
+const getAllUsers = async () => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+
+  return { code: 200, result: users };
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };
