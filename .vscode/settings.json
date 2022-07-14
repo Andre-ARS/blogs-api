@@ -6,6 +6,8 @@
     "jwtService",
     "loginService",
     "loginController",
-    "models"
+    "models",
+    "userService",
+    "userController"
   ]
 }
