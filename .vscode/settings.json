@@ -17,6 +17,7 @@
     "loginController",
     "models",
     "userService",
-    "userController"
+    "userController",
+    "authMiddleware"
   ]
 }
