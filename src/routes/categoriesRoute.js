@@ -6,6 +6,7 @@ const categoriesRoute = express.Router();
 
 categoriesRoute.use(authMiddleware.validateToken);
 
+categoriesRoute.get('/', categoriesController.getAllCategories);
 categoriesRoute.post('/', categoriesController.createCategory);
 
 module.exports = categoriesRoute;
