@@ -19,6 +19,7 @@
     "userService",
     "userController",
     "authMiddleware",
-    "categoriesService"
+    "categoriesService",
+    "categoriesController"
   ]
 }
