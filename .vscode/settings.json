@@ -18,6 +18,7 @@
     "models",
     "userService",
     "userController",
-    "authMiddleware"
+    "authMiddleware",
+    "categoriesService"
   ]
 }
