@@ -54,8 +54,6 @@ const addPost = async ({ title, content, categoryIds, userId }) => {
       { title, content, userId, published: Date.now(), updated: Date.now() }, { transaction: t },
     );
 
-    console.log(dataValues);
-
     await PostCategory.bulkCreate(
       validIds.map((categoryId) => ({ postId: dataValues.id, categoryId })),
       { transaction: t },

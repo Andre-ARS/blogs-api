@@ -34,11 +34,11 @@ const createUser = async (userInfo) => {
       return { code: 409, result: { message: 'User already registered' } };
     }
 
-    await User.create(info);
+    const { dataValues: { id } } = await User.create(info);
 
     delete info.password;
 
-    const token = createToken(info);
+    const token = createToken({ id, ...info });
 
     return { code: 201, result: { token } };
   } catch ({ message }) {
