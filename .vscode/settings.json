@@ -21,6 +21,7 @@
     "authMiddleware",
     "categoriesService",
     "categoriesController",
-    "blogPostsService"
+    "blogPostsService",
+    "blogPostsController"
   ]
 }
