@@ -20,6 +20,7 @@
     "userController",
     "authMiddleware",
     "categoriesService",
-    "categoriesController"
+    "categoriesController",
+    "blogPostsService"
   ]
 }
