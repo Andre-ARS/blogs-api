@@ -1,14 +1,14 @@
-const Joi = require("joi");
-const Sequelize = require("sequelize");
+const Joi = require('joi');
+const Sequelize = require('sequelize');
 const {
   Category,
   BlogPost,
   PostCategory,
   User,
-} = require("../database/models");
-const config = require("../database/config/config");
+} = require('../database/models');
+const config = require('../database/config/config');
 
-const ERROR_MESSAGE = "Some required fields are missing";
+const ERROR_MESSAGE = 'Some required fields are missing';
 
 const sequelize = new Sequelize(config.development);
 
@@ -35,9 +35,9 @@ const validateBody = async (data) => {
     content: Joi.string().required(),
     categoryIds: Joi.array().min(1).required(),
   }).messages({
-    "any.required": ERROR_MESSAGE,
-    "array.min": ERROR_MESSAGE,
-    "string.empty": ERROR_MESSAGE,
+    'any.required': ERROR_MESSAGE,
+    'array.min': ERROR_MESSAGE,
+    'string.empty': ERROR_MESSAGE,
   });
 
   const { error } = schema.validate(data);
@@ -57,12 +57,12 @@ const addPost = async ({ title, content, categoryIds, userId }) => {
 
     const { dataValues } = await BlogPost.create(
       { title, content, userId, published: Date.now(), updated: Date.now() },
-      { transaction: t }
+      { transaction: t },
     );
 
     await PostCategory.bulkCreate(
       validIds.map((categoryId) => ({ postId: dataValues.id, categoryId })),
-      { transaction: t }
+      { transaction: t },
     );
 
     await t.commit();
