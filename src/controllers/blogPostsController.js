@@ -1,4 +1,4 @@
-const { blogPostsService } = require("../services");
+const { blogPostsService } = require('../services');
 
 const addPost = async (req, res) => {
   const postInfo = { ...req.body, userId: req.user.id };
