@@ -21,6 +21,7 @@ const getPostById = async (req, res) => {
 
   return res.status(code).json(result);
 };
+
 const updatePost = async (req, res) => {
   const {
     params: { id },
@@ -28,12 +29,17 @@ const updatePost = async (req, res) => {
     user: { id: userId },
   } = req;
 
-  const { code, result } = await blogPostsService.updatePost({
-    id,
-    title,
-    content,
-    userId,
-  });
+  const updateInfo = { id, title, content, userId };
+
+  const { code, result } = await blogPostsService.updatePost(updateInfo);
+
+  return res.status(code).json(result);
+};
+
+const removePost = async (req, res) => {
+  const { params: { id }, user: { id: userId } } = req;
+
+  const { code, result } = await blogPostsService.removePost(id, userId);
 
   return res.status(code).json(result);
 };
@@ -43,4 +49,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  removePost,
 };
