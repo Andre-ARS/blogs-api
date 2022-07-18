@@ -13,7 +13,7 @@ const ERROR_MESSAGE = 'Some required fields are missing';
 const INCLUDE_OPTIONS = [
   { model: User, as: 'user', attributes: { exclude: ['password'] } },
   { model: Category, as: 'categories', through: { attributes: [] } },
-]
+];
 
 const sequelize = new Sequelize(config.development);
 
