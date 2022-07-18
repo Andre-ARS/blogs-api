@@ -10,6 +10,11 @@ const config = require('../database/config/config');
 
 const ERROR_MESSAGE = 'Some required fields are missing';
 
+const INCLUDE_OPTIONS = [
+  { model: User, as: 'user', attributes: { exclude: ['password'] } },
+  { model: Category, as: 'categories', through: { attributes: [] } },
+]
+
 const sequelize = new Sequelize(config.development);
 
 let validIds = [];
@@ -77,10 +82,7 @@ const addPost = async ({ title, content, categoryIds, userId }) => {
 const getAllPosts = async () => {
   try {
     const posts = await BlogPost.findAll({
-      include: [
-        { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Category, as: 'categories', through: { attributes: [] } },
-      ],
+      include: INCLUDE_OPTIONS,
     });
 
     return { code: 200, result: posts };
@@ -89,7 +91,23 @@ const getAllPosts = async () => {
   }
 };
 
+const getPostById = async (id) => {
+  try {
+    const post = await BlogPost.findOne({
+      where: { id },
+      include: INCLUDE_OPTIONS,
+    });
+
+    if (!post) return { code: 404, result: { message: 'Post does not exist' } };
+
+    return { code: 200, result: post };
+  } catch ({ message }) {
+    return { code: 500, result: { message } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
+  getPostById,
 };
