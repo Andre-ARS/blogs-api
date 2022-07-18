@@ -145,10 +145,30 @@ const removePost = async (id, userId) => {
   }
 };
 
+const filterPostByTerm = async (searchTerm) => {
+  const { Op } = Sequelize;
+  try {
+    const posts = await BlogPost.findAll({
+      where: {
+        [Op.or]: [ 
+          { title: { [Op.like]: `%${searchTerm}%` } },
+          { content: { [Op.like]: `%${searchTerm}%` } },
+        ],
+      },
+      include: INCLUDE_OPTIONS,
+    });
+
+    return { code: 200, result: posts };
+  } catch ({ message }) {
+    return { code: 500, result: { message } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
   updatePost,
   removePost,
+  filterPostByTerm,
 };
