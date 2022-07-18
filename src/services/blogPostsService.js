@@ -106,8 +106,34 @@ const getPostById = async (id) => {
   }
 };
 
+const validateUser = async (userId, postId) => {
+  const { result: { dataValues } } = await getPostById(postId);
+
+  if (dataValues.user.id !== userId) throw new Error('Unauthorized user');
+
+  return dataValues;
+};
+
+const updatePost = async ({ id, title, content, userId }) => {
+  try {
+    if (!title || !content) return { code: 400, result: { message: ERROR_MESSAGE } };
+
+    const post = await validateUser(userId, id);
+
+    await BlogPost.update({ title, content },
+      { where: { id }, returning: true });
+    
+    return { code: 200, result: { ...post, title, content } };
+  } catch ({ message }) {
+    return message.includes('Unauthorized')
+      ? { code: 401, result: { message } }
+      : { code: 500, result: { message } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };
