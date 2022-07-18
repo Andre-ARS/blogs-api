@@ -8,5 +8,6 @@ userRoute.post('/', userController.createUser);
 userRoute.use(authMiddleware.validateToken);
 userRoute.get('/', userController.getAllUsers);
 userRoute.get('/:id', userController.getUserById);
+userRoute.delete('/me', userController.removeUser);
 
 module.exports = userRoute;
