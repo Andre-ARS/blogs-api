@@ -109,6 +109,7 @@ const getPostById = async (id) => {
 const validateUser = async (userId, postId) => {
   const { result: { dataValues } } = await getPostById(postId);
 
+  if (!dataValues) throw new Error('Post does not exist');
   if (dataValues.user.id !== userId) throw new Error('Unauthorized user');
 
   return dataValues;
@@ -131,9 +132,23 @@ const updatePost = async ({ id, title, content, userId }) => {
   }
 };
 
+const removePost = async (id, userId) => {
+  try {
+    await validateUser(userId, id);
+
+    await BlogPost.destroy({ where: { id } });
+
+    return { code: 204 };
+  } catch ({ message }) {
+    if (message.includes('Unauthorized')) return { code: 401, result: { message } };
+    if (message.includes('not exist')) return { code: 404, result: { message } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
   updatePost,
+  removePost,
 };
