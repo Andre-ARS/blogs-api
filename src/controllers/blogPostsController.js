@@ -44,10 +44,19 @@ const removePost = async (req, res) => {
   return res.status(code).json(result);
 };
 
+const filterPostByTerm = async (req, res) => {
+  const { q } = req.query;
+
+  const { code, result } = await blogPostsService.filterPostByTerm(q);
+
+  return res.status(code).json(result);
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
   updatePost,
   removePost,
+  filterPostByTerm,
 };
