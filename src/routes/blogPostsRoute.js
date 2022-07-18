@@ -10,5 +10,6 @@ postsRoute.get('/', blogPostsController.getAllPosts);
 postsRoute.get('/:id', blogPostsController.getPostById);
 postsRoute.post('/', blogPostsController.addPost);
 postsRoute.put('/:id', blogPostsController.updatePost);
+postsRoute.delete('/:id', blogPostsController.removePost);
 
 module.exports = postsRoute;
