@@ -60,8 +60,19 @@ const getUserById = async (id) => {
   return { code: 200, result: user };
 };
 
+const removeUser = async (id) => {
+  try {
+    await User.destroy({ where: { id } });
+
+    return { code: 204 };
+  } catch ({ message }) {
+    return { code: 500, result: { message } };
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  removeUser,
 };
