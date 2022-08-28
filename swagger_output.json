@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Store Manager",
-    "description": "API de um CRUD de vendas e produtos"
+    "title": "Blog's API",
+    "description": "API de um CRUD das funcionalidades de um blog"
   },
   "host": "localhost:3000",
   "basePath": "/",

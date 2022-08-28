@@ -50,6 +50,6 @@ npm start
 
 > Use o seu API client preferido e rode o endpoint na porta 3000 do seu localhost
 
-Url base da api rodando no vercel 
+Url base da api rodando no vercel [blogs-api-ars.vercel.app](https://blogs-api-ars.vercel.app/)
 
-Visite a documentação no swagger
+Visite a documentação no swagger [aqui](https://app.swaggerhub.com/apis/ANDRE360ARS/blogs-api/1.0.0#/)
