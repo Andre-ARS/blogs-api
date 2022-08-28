@@ -1,0 +1,780 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Store Manager",
+    "description": "API de um CRUD de vendas e produtos"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    } 
+  },
+  "tags": [
+    {
+      "name": "Login",
+      "description": "Login Endpoint"
+    },
+    {
+      "name": "User",
+      "description": "User Endpoints"
+    },
+    {
+      "name": "Categories",
+      "description": "Categories Endpoints"
+    },
+    {
+      "name": "Post",
+      "description": "Post Endpoints"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login/": {
+      "post": {
+        "description": "Valida o login de um usuario cadastrado no Blog",
+        "tags": ["Login"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": { "$ref": "#/definitions/Login" }
+          }
+        ],        
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type":"object",
+              "properties": "token",
+              "example": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJkaXNwbGF5TmFtZSI6Ikxld2lzIEhhbWlsdG9uIiwiZW1haWwiOiJsZXdpc2hhbWlsdG9uQGdtYWlsLmNvbSIsImltYWdlIjoiaHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy8xLzE4L0xld2lzX0hhbWlsdG9uXzIwMTZfTWFsYXlzaWFfMi5qcGcifSwiaWF0IjoxNjYxNTIzMTg2LCJleHAiOjE2NjE1MjQwODZ9.xw_BEfVH5lxRP-UuhVY_JHBPpZTJ5L0yvIfX9dzZBtI"
+              }
+            }          
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Some required fields are missing"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/": {
+      "post": {
+        "description": "Cadastra um novo usuário",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": { "$ref": "#/definitions/CreateUser" }
+          }
+        ],        
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type":"object",
+              "properties": "token",
+              "example": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJkaXNwbGF5TmFtZSI6Ikxld2lzIEhhbWlsdG9uIiwiZW1haWwiOiJsZXdpc2hhbWlsdG9uQGdtYWlsLmNvbSIsImltYWdlIjoiaHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy8xLzE4L0xld2lzX0hhbWlsdG9uXzIwMTZfTWFsYXlzaWFfMi5qcGcifSwiaWF0IjoxNjYxNTIzMTg2LCJleHAiOjE2NjE1MjQwODZ9.xw_BEfVH5lxRP-UuhVY_JHBPpZTJ5L0yvIfX9dzZBtI"
+              }
+            }          
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "\"email\" must be a valid email"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "User already registered"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retorna todos os usuários registrados no Blog",
+        "tags": ["User"],
+        "security": [{
+          "apiKeyAuth": []
+        }],  
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/User" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }        
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "description": "Retorna um usuário com base em seu id no banco",
+        "security": [{
+          "apiKeyAuth": []
+        }],  
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/User" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          },        
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "User does not exist"
+              }
+            }
+          }        
+        }
+      }
+    },
+    "/user/me": {
+      "delete": {
+        "description": "Exclui o usuário logado",
+        "security": [{
+          "apiKeyAuth": []
+        }],  
+        "tags": ["User"],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }      
+        }
+      }
+    },
+    "/categories/": {
+      "get": {
+        "description": "Retorna todas as categorias de posts registradas no Blog",
+        "tags": ["Categories"],
+        "security": [{
+          "apiKeyAuth": []
+        }],  
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Categories" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          } 
+        }
+      },
+      "post": {
+        "description": "Cadastra uma nova categoria de post",
+        "tags": ["Categories"],
+        "security": [{
+          "apiKeyAuth": []
+        }],  
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type":"object",
+              "properties": "name",
+              "example": {
+                "name": "Inovação"
+              }
+            }
+          }
+        ],        
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/Categories" }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "\"name\" is required"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/": {
+      "get": {
+        "description": "Retorna todas as postagens do Blog",
+        "tags": ["Post"],
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }  
+        }
+      },
+      "post": {
+        "description": "Adiciona uma nova postagem",
+        "tags": ["Post"],
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": { "$ref": "#/definitions/CreatePost" }
+          }
+        ],        
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/CreatePostRes" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }  
+        }
+      }
+    },
+    "/post/search": {
+      "get": {
+        "description": "Retorna uma postagem que tenha um certo termo em seu titulo ou conteúdo",
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          }  
+        }
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "description": "Retorna uma postagem com base em seu id no banco",
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Post does not exist"
+              }
+            }
+          }  
+        }
+      },
+      "put": {
+        "description": "Edita o titulo e o conteúdo de uma postagem",
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": { "$ref": "#/definitions/UpdatePost" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Some required fields are missing"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Post does not exist"
+              }
+            }
+          }  
+        }
+      },
+      "delete": {
+        "description": "Exclui uma postagem do usuário logado",
+        "security": [{
+          "apiKeyAuth": []
+        }],
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Token not found/Expired or invalid token"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type":"object",
+              "properties": "message",
+              "example": {
+                "message": "Post does not exist"
+              }
+            }
+          }  
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "lewishamilton@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "User": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Lewis Hamilton"
+          },
+          "email": {
+            "type": "string",
+            "example": "lewishamilton@gmail.com"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "email",
+          "password",
+          "image"
+        ]
+      }
+    },
+    "CreateUser": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "example": "Lewis Hamilton"
+        },
+        "email": {
+          "type": "string",
+          "example": "lewishamilton@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg"
+        }
+      },
+      "required": [
+        "displayName",
+        "email",
+        "password",
+        "image"
+      ]
+    },
+    "Categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Inovação"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    "Post": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Post do Ano"
+          },
+          "content": {
+            "type": "string",
+            "example": "Melhor post do ano"
+          },
+          "userId": {
+            "type": "number",
+            "example": 1
+          },
+          "published": {
+            "type": "string",
+            "example": "2011-08-01T19:58:00.000Z"
+          },
+          "updated": {
+            "type": "string",
+            "example": "2011-08-01T19:58:51.000Z"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "displayName": {
+                "type": "string",
+                "example": "Lewis Hamilton"
+              },
+              "email": {
+                "type": "string",
+                "example": "lewishamilton@gmail.com"
+              },
+              "image": {
+                "type": "string",
+                "example": "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg"
+              }
+            },
+            "required": [
+              "id",
+              "displayName",
+              "email",
+              "image"
+            ]
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Inovação"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "content",
+          "userId",
+          "published",
+          "updated",
+          "user",
+          "categories"
+        ]
+      }
+    },
+    "CreatePost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Post do Ano"
+        },
+        "content": {
+          "type": "string",
+          "example": "Melhor post do ano"
+        },
+        "categoryIds": {
+          "type": "array",
+          "example": [1,2]
+        }
+      },
+      "required": [
+        "title",
+        "content",
+        "categoryIds"
+      ]
+    },
+    "CreatePostRes": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "title": {
+          "type": "string",
+          "example": "Post do Ano"
+        },
+        "content": {
+          "type": "string",
+          "example": "Melhor post do ano"
+        },
+        "userId": {
+          "type": "number",
+          "example": 1
+        },
+        "published": {
+          "type": "string",
+          "example": "2011-08-01T19:58:00.000Z"
+        },
+        "updated": {
+          "type": "string",
+          "example": "2011-08-01T19:58:51.000Z"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "userId",
+        "published",
+        "updated"
+      ]
+    },
+    "UpdatePost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Post do Ano"
+        },
+        "content": {
+          "type": "string",
+          "example": "Melhor post do ano"
+        }
+      },
+      "required": [
+        "title",
+        "content"
+      ]
+    }
+  }
+}

@@ -9,4 +9,5 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(port, () => console.log('ouvindo porta', port));
+app.listen(port, () => console.log(`ouvindo porta, ${port}
+Acesse a documentação em http://localhost:3000/docs`));
